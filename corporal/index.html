@@ -590,6 +590,10 @@
                            placeholder="+523312345678" autocomplete="tel">
                     <p id="res-telefono-error" class="error-msg"></p>
                 </div>
+                <!-- Honeypot anti-bot: campo invisible, si se llena es bot -->
+                <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+                    <input type="text" id="res-website" tabindex="-1" autocomplete="off">
+                </div>
                 <div class="submit-wrap">
                     <button class="btn-submit" id="btn-submit">Enviar mis resultados</button>
                 </div>
@@ -1137,7 +1141,8 @@
             nombre: nombre,
             email: email,
             telefono: telefono,
-            score: score
+            score: score,
+            hp: document.getElementById('res-website').value
         };
 
         /* Enviar al Apps Script
