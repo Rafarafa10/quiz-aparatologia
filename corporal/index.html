@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com">
-    <title>Evaluación – Aparatología Corporal</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://n8n.quintoelemento.com.mx">
+    <title>Evaluaci&oacute;n &ndash; Aparatolog&iacute;a Corporal</title>
     <style>
         /* ===== RESET Y VARIABLES ===== */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -140,6 +140,13 @@
 
         .input-group input.input-error {
             border-color: var(--incorrect);
+        }
+
+        .input-hint {
+            color: var(--text-light);
+            font-size: 0.82rem;
+            margin-top: 6px;
+            line-height: 1.45;
         }
 
         .error-msg {
@@ -520,17 +527,17 @@
     <!-- ===== PANTALLA 1: BIENVENIDA ===== -->
     <div id="screen-welcome" class="screen active">
         <div class="welcome-card">
-            <span class="welcome-icon" role="img" aria-label="spa">💆‍♀️</span>
+            <span class="welcome-icon" role="img" aria-label="spa">&#x1F486;&#x200D;&#x2640;&#xFE0F;</span>
             <span class="brand-line">Club Quinto Elemento</span>
-            <h1>Evaluación – Aparatología Corporal</h1>
-            <p class="subtitle">Responde con calma, confía en lo que aprendiste ✨</p>
+            <h1>Evaluaci&oacute;n &ndash; Aparatolog&iacute;a Corporal</h1>
+            <p class="subtitle">Responde con calma, conf&iacute;a en lo que aprendiste &#x2728;</p>
             <div class="input-group">
-                <label for="student-name">¿Cuál es tu nombre completo?</label>
+                <label for="student-name">&iquest;Cu&aacute;l es tu nombre completo?</label>
                 <input type="text" id="student-name" maxlength="80"
-                       placeholder="Ej: María López Hernández" autocomplete="name">
+                       placeholder="Ej: Mar&iacute;a L&oacute;pez Hern&aacute;ndez" autocomplete="name">
                 <p id="name-error" class="error-msg"></p>
             </div>
-            <button class="btn btn-primary" id="btn-start">Comenzar evaluación →</button>
+            <button class="btn btn-primary" id="btn-start">Comenzar evaluaci&oacute;n &rarr;</button>
         </div>
     </div>
 
@@ -565,13 +572,13 @@
 
             <!-- Mensaje de no aprobado (oculto por defecto) -->
             <div class="retry-section hidden" id="retry-section">
-                <p class="retry-msg">Te recomendamos repasar el material y volver a intentarlo. ¡Tú puedes!</p>
-                <button class="btn btn-primary" id="btn-retry">Intentar de nuevo</button>
+                <p class="retry-msg">Necesitas repasar el material &mdash; puedes intentarlo de nuevo. &iexcl;T&uacute; puedes!</p>
+                <button class="btn btn-primary" id="btn-retry">Reintentar</button>
             </div>
 
             <!-- Formulario de captura de datos -->
             <div class="results-form-section hidden" id="results-form-section">
-                <p class="form-intro">¡Felicidades, has concluido este curso de forma exitosa! Completa tus datos para registrar tu resultado:</p>
+                <p class="form-intro">Por favor llena los datos a continuaci&oacute;n para obtener tu diploma.</p>
                 <div class="input-group">
                     <label for="res-nombre">Nombre completo</label>
                     <input type="text" id="res-nombre" maxlength="80"
@@ -579,36 +586,40 @@
                     <p id="res-nombre-error" class="error-msg"></p>
                 </div>
                 <div class="input-group">
-                    <label for="res-email">Correo electrónico</label>
+                    <label for="res-email">Correo electr&oacute;nico</label>
                     <input type="email" id="res-email" maxlength="120"
                            placeholder="ejemplo@correo.com" autocomplete="email">
                     <p id="res-email-error" class="error-msg"></p>
                 </div>
                 <div class="input-group">
-                    <label for="res-telefono">Teléfono</label>
+                    <label for="res-telefono">N&uacute;mero de tel&eacute;fono</label>
                     <input type="tel" id="res-telefono" maxlength="15"
                            placeholder="+523312345678" autocomplete="tel">
                     <p id="res-telefono-error" class="error-msg"></p>
+                </div>
+                <div class="input-group">
+                    <label for="res-curp">CURP (opcional)</label>
+                    <input type="text" id="res-curp" maxlength="18"
+                           placeholder="Ej: LOHE850101MJCPRN09" autocomplete="off">
+                    <p class="input-hint">Si actualmente perteneces al tier Premium en Club Quinto Elemento, incluye tu CURP para generar tu Constancia DC-3</p>
                 </div>
                 <!-- Honeypot anti-bot: campo invisible, si se llena es bot -->
                 <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
                     <input type="text" id="res-website" tabindex="-1" autocomplete="off">
                 </div>
                 <div class="submit-wrap">
-                    <button class="btn-submit" id="btn-submit">Enviar mis resultados</button>
+                    <button class="btn-submit" id="btn-submit">Enviar y obtener mi diploma</button>
                 </div>
                 <p class="submit-error" id="submit-error"></p>
             </div>
 
-            <!-- Mensaje institucional (oculto hasta envío exitoso) -->
+            <!-- Mensaje institucional (oculto hasta env&iacute;o exitoso) -->
             <div class="institutional-msg hidden" id="institutional-msg">
-                Hemos recibido tus respuestas. Realizaremos un análisis y en breve
-                te haremos llegar tu diploma. ¡Que tengas un excelente día! 🌿<br><br>
-                <strong>— Club Quinto Elemento</strong>
+                &#x2705; &iexcl;Tus datos han sido recibidos! En breve recibir&aacute;s tu diploma en el correo que registraste. &#x1F33F;<br><br>
+                <strong>&mdash; Club Quinto Elemento</strong>
             </div>
 
-            <button class="btn btn-secondary" id="btn-restart">Volver al inicio</button>
-            <p class="footer-text">Club Quinto Elemento <em>by</em> Quinto Elemento Todo En Spa © 2026</p>
+            <p class="footer-text">Club Quinto Elemento <em>by</em> Quinto Elemento Todo En Spa &copy; 2026</p>
         </div>
     </div>
 
@@ -622,16 +633,16 @@
     'use strict';
 
     /* ==========================================================
-       URL DEL APPS SCRIPT — reemplazar con la URL real del deploy
+       URL DEL WEBHOOK n8n
        ========================================================== */
-    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx675J19lWYUtSSOeoa4HH1r4_mUoURBCtYmgq7RghkX41HXfiPG3yNIDa_VVGtLAHB/exec';
+    var WEBHOOK_URL = 'https://n8n.quintoelemento.com.mx/webhook/quiz-corporal';
 
     /* ==========================================================
-       PROTECCIÓN: click derecho y atajos de DevTools
+       PROTECCI&Oacute;N: click derecho y atajos de DevTools
        ========================================================== */
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
-        showToast('Esta sección está protegida 🔒');
+        showToast('Esta secci\u00f3n est\u00e1 protegida \uD83D\uDD12');
     });
 
     document.addEventListener('keydown', function(e) {
@@ -639,12 +650,12 @@
             (e.ctrlKey && e.shiftKey && /^[IJCijc]$/.test(e.key)) ||
             (e.ctrlKey && /^[Uu]$/.test(e.key))) {
             e.preventDefault();
-            showToast('Esta sección está protegida 🔒');
+            showToast('Esta secci\u00f3n est\u00e1 protegida \uD83D\uDD12');
         }
     });
 
     /* ==========================================================
-       TOAST — mensajes temporales
+       TOAST
        ========================================================== */
     var toastTimer = null;
     function showToast(msg) {
@@ -656,132 +667,155 @@
     }
 
     /* ==========================================================
-       DATOS DEL QUIZ
+       DATOS DEL QUIZ — 28 preguntas en 7 secciones
        ========================================================== */
     var categories = [
+        'Gimnasia Pasiva', 'Gimnasia Pasiva', 'Gimnasia Pasiva', 'Gimnasia Pasiva',
+        'Ultrasonido', 'Ultrasonido', 'Ultrasonido', 'Ultrasonido',
         'Presoterapia', 'Presoterapia', 'Presoterapia', 'Presoterapia',
-        'Vacuumterapia', 'Vacuumterapia', 'Vacuumterapia',
-        'Electroestimulación', 'Electroestimulación', 'Electroestimulación', 'Electroestimulación',
-        'Lipolaser', 'Lipolaser', 'Lipolaser',
-        'Radiofrecuencia', 'Radiofrecuencia', 'Radiofrecuencia',
-        'Ultrasonido', 'Ultrasonido', 'Ultrasonido'
+        'Lipolaser', 'Lipolaser', 'Lipolaser', 'Lipolaser',
+        'Cavitaci\u00f3n', 'Cavitaci\u00f3n', 'Cavitaci\u00f3n', 'Cavitaci\u00f3n',
+        'Vacumterapia', 'Vacumterapia', 'Vacumterapia', 'Vacumterapia',
+        'Radiofrecuencia Corporal', 'Radiofrecuencia Corporal', 'Radiofrecuencia Corporal', 'Radiofrecuencia Corporal'
     ];
 
     var questions = [
+        /* === GIMNASIA PASIVA (P1-P4) === */
         {
-            q: '¿Cuál es el tiempo recomendado de sesión de presoterapia para fines estéticos?',
-            o: ['15 minutos', '45 minutos', '30 minutos', '60 minutos'],
-            fb: '30 min es suficiente para obtener resultados en drenaje linfático estético.'
+            q: '\u00bfPara qu\u00e9 sirve?',
+            o: ['Reafirmar y degradar grasa', 'Para dar masaje', 'Para moldear el cuerpo']
         },
         {
-            q: '¿Cuántas veces por semana se recomienda la presoterapia para fines estéticos?',
-            o: ['Todos los días', '2 veces por semana', '1 vez por semana', '4 veces por semana'],
-            fb: 'Dejando un día de espacio entre sesiones para mejores resultados.'
+            q: '\u00bfQu\u00e9 tecnolog\u00eda es?',
+            o: ['El\u00e9ctrica', 'Mec\u00e1nica', 'Luz']
         },
         {
-            q: '¿Cuál de los siguientes NO es un efecto fisiológico de la presoterapia?',
-            o: ['Estimula el drenaje venoso y linfático', 'Tiene efecto relajante', 'Favorece la reabsorción de líquidos', 'Aumenta la temperatura corporal de forma prolongada'],
-            fb: 'La presoterapia no genera calor prolongado; trabaja por compresión y descompresión.'
+            q: '\u00bfCada cu\u00e1ndo se puede usar?',
+            o: ['Todos los d\u00edas', 'Hasta 3 veces por semana, dejando un d\u00eda espaciado entre sesiones', '5 d\u00edas seguidos']
         },
         {
-            q: 'Cuando la presoterapia se combina con otros tratamientos, ¿en qué momento de la sesión se aplica?',
-            o: ['Al inicio de la sesión', 'A la mitad de la sesión', 'En cualquier momento indistintamente', 'Al final de la sesión'],
-            fb: 'Siempre al final, para potenciar el drenaje de lo trabajado previamente.'
+            q: '\u00bfAcomodo de pads?',
+            o: ['Tiene un positivo y negativo que se acomoda conforme a las im\u00e1genes del manual', 'Todos son positivos y todos se ponen en todos lados', 'No importa c\u00f3mo se acomoden']
+        },
+        /* === ULTRASONIDO (P5-P8) === */
+        {
+            q: '\u00bfSirve para postquir\u00fargicos?',
+            o: ['S\u00ed', 'No', 'A veces']
         },
         {
-            q: '¿Qué tipo de presión utiliza la vacuumterapia sobre la piel?',
-            o: ['Presión positiva (insuflación)', 'Presión alternada', 'Presión constante neutral', 'Presión negativa (succión)'],
-            fb: 'La succión levanta el tejido de dentro hacia afuera, al contrario del masaje tradicional.'
+            q: '\u00bfQu\u00e9 tecnolog\u00eda es?',
+            o: ['El\u00e9ctrica', 'Mec\u00e1nica', 'Luz']
         },
         {
-            q: '¿Con qué producto se recomienda lubricar la piel durante la vacuumterapia para no dañar el equipo?',
-            o: ['Gel conductor neutro', 'Aceite especial para vacuum', 'Crema hidratante común', 'Agua'],
-            fb: 'El aceite evita que el líquido entre al maneral y dañe el equipo.'
+            q: '\u00bfDe cu\u00e1ntos MHz es el corporal?',
+            o: ['1 MHz', '3 MHz', '5 MHz']
         },
         {
-            q: '¿Cuántas veces por semana se recomienda trabajar con la vacuumterapia?',
-            o: ['Todos los días sin descanso', '5 veces por semana', 'Solo 1 vez por semana', 'De 2 a 3 veces por semana dejando un día de espacio'],
-            fb: 'El día de descanso permite la recuperación del tejido tratado.'
+            q: '\u00bfEn qu\u00e9 zonas del cuerpo se puede usar?',
+            o: ['Solo abdomen', 'Piernas, abdomen, brazos, espalda', 'Piernas, abdomen, espalda']
+        },
+        /* === PRESOTERAPIA (P9-P12) === */
+        {
+            q: '\u00bfQu\u00e9 tecnolog\u00eda es?',
+            o: ['El\u00e9ctrica', 'Mec\u00e1nica', 'Luz']
         },
         {
-            q: '¿Cuál es la frecuencia en Hz de los equipos de gimnasia pasiva o electroestimuladores?',
-            o: ['10-20 Hz', '100-200 Hz', '40-60 Hz', '200-400 Hz'],
-            fb: 'Esta frecuencia es ideal para estimular fibras musculares sin causar daño.'
+            q: '\u00bfQu\u00e9 tratamientos se pueden hacer?',
+            o: ['Drenaje linf\u00e1tico y postquir\u00fargicos', 'Drenaje linf\u00e1tico', 'Drenaje linf\u00e1tico, prequir\u00fargicos, postquir\u00fargicos, reducci\u00f3n de medidas, anticelul\u00edticos, desintoxicante, retenci\u00f3n de l\u00edquidos, piernas cansadas']
         },
         {
-            q: '¿Qué se coloca debajo de los cinturones de electroestimulación?',
-            o: ['Agua fría', 'Alcohol', 'Aceite vegetal', 'Gel neutro conductor o con activos'],
-            fb: 'El gel garantiza la conducción eléctrica y el confort del cliente.'
+            q: '\u00bfQu\u00e9 beneficios proporciona?',
+            o: ['Mejorar el sistema linf\u00e1tico', 'Mejorar el sistema circulatorio', 'Mejorar el sistema linf\u00e1tico y sistema circulatorio']
         },
         {
-            q: '¿Cuánto tiempo máximo se recomienda la electroestimulación por área?',
-            o: ['10 minutos', '45 minutos', '60 minutos', '30 minutos'],
-            fb: 'La mayoría de equipos modernos ya vienen programados con ese límite.'
+            q: '\u00bfSe tiene que dejar reposando al cliente despu\u00e9s del tratamiento?',
+            o: ['S\u00ed, 5 minutos acostado en camilla', 'No, se puede parar inmediatamente', 'S\u00ed, 5 min sentado']
+        },
+        /* === LIPOLASER (P13-P16) === */
+        {
+            q: '\u00bfC\u00f3mo trabaja?',
+            o: ['Degradaci\u00f3n de grasa y celulitis', 'Reafirmar y degradaci\u00f3n de grasa', 'Moldeo, degradaci\u00f3n de grasa, celulitis']
         },
         {
-            q: '¿Cuál de las siguientes es una indicación estética de la electroestimulación?',
-            o: ['Fracturas óseas recientes', 'Heridas abiertas', 'Flacidez y atonía muscular', 'Hipertensión arterial severa'],
-            fb: 'La electroestimulación tensa y activa el músculo sin esfuerzo físico.'
+            q: '\u00bfCu\u00e1ntas veces por semana se puede usar?',
+            o: ['1 vez a la semana', '5 veces por semana dejando espaciado 1 d\u00eda', '3 veces por semana dejando espaciado 1 d\u00eda']
         },
         {
-            q: '¿Qué rango de longitud de onda emite el lipolaser?',
-            o: ['400-500 nm', '900-1000 nm', '100-200 nm', '635-650 nm'],
-            fb: 'Esta longitud de onda es la que penetra y actúa sobre los adipocitos.'
+            q: '\u00bfCon qu\u00e9 producto?',
+            o: ['No lleva nada de producto, van directas las placas a la piel limpia', 'Gel conductor, se le coloca a las placas', 'Aceite, se le coloca a las placas']
         },
         {
-            q: '¿Qué enzima estimula el lipolaser en los adipocitos?',
-            o: ['Insulina', 'Amilasa', 'Proteasa', 'Lipasa'],
-            fb: 'La Lipasa fragmenta los triglicéridos para que el cuerpo los elimine.'
+            q: '\u00bfSe puede poner en varias partes a la vez?',
+            o: ['No', 'S\u00ed', 'No s\u00e9']
+        },
+        /* === CAVITACI\u00d3N (P17-P20) === */
+        {
+            q: '\u00bfCu\u00e1ntas veces se puede usar?',
+            o: ['1 vez cada quince d\u00edas', '1 vez a la semana', '1 vez cada mes']
         },
         {
-            q: '¿Qué intensidad se recomienda para los pads pequeños del lipolaser?',
-            o: ['20% a 30%', '40% a 60%', '70% a 90%', '10% a 15%'],
-            fb: 'Los pads pequeños van en zonas más delicadas como papada, por eso menor intensidad.'
+            q: '\u00bfQu\u00e9 hace la cavitaci\u00f3n?',
+            o: ['Cavitar dentro del cuerpo', 'Congelar dentro del cuerpo', 'Calentar dentro del cuerpo']
         },
         {
-            q: '¿Cuál es el movimiento que NO se recomienda durante la radiofrecuencia?',
-            o: ['Movimientos circulares', 'Mantener el electrodo estático sobre la piel', 'Movimientos lineales hacia el ganglio', 'Movimientos lineales de modelado'],
-            fb: 'Detener el electrodo genera calor excesivo que puede quemar la piel.'
+            q: '\u00bfQu\u00e9 tecnolog\u00eda es?',
+            o: ['Mec\u00e1nica', 'Luz', 'El\u00e9ctrica']
         },
         {
-            q: '¿Con qué frecuencia se recomienda trabajar la radiofrecuencia corporal?',
-            o: ['Tres veces por semana', 'Todos los días', 'Dos veces al día', 'Una vez por semana'],
-            fb: 'El exceso puede deshidratar la piel; si ocurre, se debe esperar 15 días.'
+            q: '\u00bfPara trabajarla se necesita que haya lonjita?',
+            o: ['No', 'S\u00ed', 'A veces']
+        },
+        /* === VACUMTERAPIA (P21-P24) === */
+        {
+            q: '\u00bfCu\u00e1l es la funci\u00f3n de la vacumterapia?',
+            o: ['Moldear y drenar', 'Calentar y drenar', 'Moldear y reafirmar']
         },
         {
-            q: '¿A qué temperatura comienza la contracción del colágeno inducida por la radiofrecuencia?',
-            o: ['Entre 55°C y 65°C a nivel dérmico', 'Entre 30°C y 35°C', 'Entre 40°C y 45°C', 'Entre 80°C y 90°C'],
-            fb: 'Ese rango térmico activa los fibroblastos para producir colágeno nuevo.'
+            q: '\u00bfQu\u00e9 tecnolog\u00eda es?',
+            o: ['El\u00e9ctrica', 'Mec\u00e1nica', 'Luz']
         },
         {
-            q: '¿Qué frecuencia de ultrasonido penetra más profundo en los tejidos?',
-            o: ['3 MHz', '1 MHz', '10 MHz', '5 MHz'],
-            fb: 'A mayor frecuencia, menor penetración. 1 MHz llega a tejidos profundos.'
+            q: '\u00bfCon qu\u00e9 producto se usa?',
+            o: ['Aceite especial para vacum', 'Gel especial para vacum', 'Crema especial para vacum']
         },
         {
-            q: '¿Cuál de estos es un beneficio estético del ultrasonido?',
-            o: ['Reduce la hidratación de la piel', 'Endurece el tejido adiposo', 'Mejora la permeabilidad de la piel para la penetración de activos', 'Aumenta permanentemente la temperatura corporal'],
-            fb: 'Esto lo hace ideal para combinar con serums y activos cosméticos.'
+            q: '\u00bfC\u00f3mo se recomienda trabajar la espalda?',
+            o: ['Parado el cliente', 'Sentado el cliente', 'Acostado el cliente']
+        },
+        /* === RADIOFRECUENCIA CORPORAL (P25-P28) === */
+        {
+            q: '\u00bfQu\u00e9 beneficios tiene?',
+            o: ['Reafirmar', 'Masaje', 'Reafirmar a nivel muscular']
         },
         {
-            q: '¿Cuál es el efecto mecánico principal del ultrasonido sobre el tejido adiposo?',
-            o: ['Compresión permanente del tejido', 'Degradación del tejido adiposo mediante vibración', 'Congelamiento del tejido graso', 'Corte quirúrgico del tejido'],
-            fb: 'La vibración ultrasónica desintegra el tejido graso de forma no invasiva.'
+            q: '\u00bfCu\u00e1ntas veces se puede usar?',
+            o: ['1 vez a la semana', 'Cada tercer d\u00eda', '1 vez cada 15 d\u00edas']
+        },
+        {
+            q: '\u00bfCon qu\u00e9 producto se usa?',
+            o: ['Gel conductor', 'Aceite', 'Crema']
+        },
+        {
+            q: '\u00bfQu\u00e9 sensaci\u00f3n siente el cliente en su piel?',
+            o: ['Fr\u00edo', 'Calor', 'Congelado']
         }
     ];
 
     /* Respuestas correctas ofuscadas en base64 */
-    var _raw = atob('MiwxLDMsMywzLDEsMywyLDMsMywyLDMsMywwLDEsMCwwLDEsMiwx');
+    var _raw = atob('MCwwLDEsMCwwLDAsMCwxLDEsMiwyLDAsMCwyLDAsMSwxLDAsMiwxLDAsMSwwLDEsMCwyLDAsMQ==');
     var _keys = _raw.split(',').map(function(v) { return parseInt(v, 10); });
 
+    /* Score m\u00ednimo para aprobar: 22 de 28 (80%) */
+    var SCORE_MIN = 22;
+
     /* ==========================================================
-       ESTADO DE LA APLICACIÓN
+       ESTADO DE LA APLICACI\u00d3N
        ========================================================== */
     var studentName = '';
     var currentQ = 0;
     var score = 0;
     var answered = false;
-    var questionFailed = false;   /* true si ya falló esta pregunta (puntaje bloqueado) */
+    var questionFailed = false;
     var isStarting = false;
     var isSubmitting = false;
 
@@ -794,14 +828,13 @@
     var inputName     = document.getElementById('student-name');
     var nameError     = document.getElementById('name-error');
     var btnStart      = document.getElementById('btn-start');
-    var btnRestart    = document.getElementById('btn-restart');
     var btnSubmit     = document.getElementById('btn-submit');
     var btnRetry      = document.getElementById('btn-retry');
 
     /* ==========================================================
        VALIDACIONES
        ========================================================== */
-    var nameRegex  = /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/;
+    var nameRegex  = /^[A-Za-z\u00C1\u00C9\u00CD\u00D3\u00DA\u00E1\u00E9\u00ED\u00F3\u00FA\u00D1\u00F1\u00DC\u00FC\s]+$/;
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     var phoneRegex = /^[+\d]+$/;
 
@@ -823,8 +856,8 @@
     }
 
     function validateEmail(email) {
-        if (!email) return 'Por favor ingresa tu correo electrónico.';
-        if (!emailRegex.test(email)) return 'El formato del correo no es válido.';
+        if (!email) return 'Por favor ingresa tu correo electr\u00f3nico.';
+        if (!emailRegex.test(email)) return 'El formato del correo no es v\u00e1lido.';
         return '';
     }
 
@@ -834,13 +867,12 @@
     }
 
     function validatePhone(phone) {
-        if (!phone) return 'Por favor ingresa tu teléfono.';
-        if (!phoneRegex.test(phone)) return 'Solo se permiten números y el símbolo +.';
-        if (phone.length < 7) return 'El teléfono parece muy corto.';
+        if (!phone) return 'Por favor ingresa tu tel\u00e9fono.';
+        if (!phoneRegex.test(phone)) return 'Solo se permiten n\u00fameros y el s\u00edmbolo +.';
+        if (phone.length < 7) return 'El tel\u00e9fono parece muy corto.';
         return '';
     }
 
-    /* Helpers para mostrar/limpiar errores en inputs del formulario */
     function showFieldError(inputId, errorId, msg) {
         document.getElementById(inputId).classList.add('input-error');
         document.getElementById(errorId).textContent = msg;
@@ -852,7 +884,7 @@
     }
 
     /* ==========================================================
-       NAVEGACIÓN ENTRE PANTALLAS
+       NAVEGACI\u00d3N ENTRE PANTALLAS
        ========================================================== */
     function showScreen(target) {
         screenWelcome.classList.remove('active');
@@ -945,7 +977,7 @@
     }
 
     /* ==========================================================
-       MANEJAR SELECCIÓN DE RESPUESTA
+       MANEJAR SELECCI\u00d3N DE RESPUESTA
        ========================================================== */
     function handleAnswer(e) {
         if (answered) return;
@@ -953,17 +985,13 @@
         var selected = parseInt(e.currentTarget.getAttribute('data-idx'), 10);
         var correct = _keys[currentQ];
         var isCorrect = (selected === correct);
-        var q = questions[currentQ];
         var btnClicked = e.currentTarget;
 
         if (isCorrect) {
-            /* --- RESPUESTA CORRECTA --- */
             answered = true;
 
-            /* Sumar punto solo si no falló antes en esta pregunta */
             if (!questionFailed) score++;
 
-            /* Deshabilitar todas las opciones */
             var buttons = document.getElementById('options-list').querySelectorAll('.option-btn');
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].disabled = true;
@@ -975,17 +1003,15 @@
                 }
             }
 
-            /* Feedback */
             var fbArea = document.getElementById('feedback-area');
             while (fbArea.firstChild) fbArea.removeChild(fbArea.firstChild);
             var fbDiv = document.createElement('div');
             fbDiv.className = 'feedback-box correct';
             fbDiv.textContent = questionFailed
-                ? '✅ ¡Ahora sí! ' + q.fb
-                : '✅ ¡Correcto! ' + q.fb;
+                ? '\u2705 \u00a1Ahora s\u00ed! Respuesta correcta.'
+                : '\u2705 \u00a1Correcto!';
             fbArea.appendChild(fbDiv);
 
-            /* Avanzar automáticamente */
             setTimeout(function() {
                 currentQ++;
                 if (currentQ < questions.length) {
@@ -996,24 +1022,18 @@
             }, 1500);
 
         } else {
-            /* --- RESPUESTA INCORRECTA --- */
-            /* Marcar que esta pregunta ya perdió su punto */
             questionFailed = true;
 
-            /* Marcar solo el botón elegido como incorrecto y deshabilitarlo */
             btnClicked.classList.add('selected-incorrect');
             btnClicked.disabled = true;
             btnClicked.removeEventListener('click', handleAnswer);
 
-            /* Feedback: pedir que intente de nuevo */
             var fbArea = document.getElementById('feedback-area');
             while (fbArea.firstChild) fbArea.removeChild(fbArea.firstChild);
             var fbDiv = document.createElement('div');
             fbDiv.className = 'feedback-box incorrect';
-            fbDiv.textContent = '❌ Esa no es la respuesta correcta. Inténtalo de nuevo.';
+            fbDiv.textContent = '\u274c Esa no es la respuesta correcta. Int\u00e9ntalo de nuevo.';
             fbArea.appendChild(fbDiv);
-
-            /* NO marcar answered=true para que pueda seguir intentando */
         }
     }
 
@@ -1024,25 +1044,20 @@
         showScreen(screenResults);
 
         var pct = Math.round((score / questions.length) * 100);
-        var aprobado = score >= 15; /* 15 a 20 = aprobado */
+        var aprobado = score >= SCORE_MIN;
         var icon, msg;
 
         if (aprobado) {
-            if (score >= 18) {
-                icon = '🌟';
-                msg = '¡Excelente desempeño! Eres toda una experta 🌟';
+            if (score >= 26) {
+                icon = '\uD83C\uDF1F';
+                msg = '\u00a1Excelente desempe\u00f1o! Eres toda una experta \uD83C\uDF1F';
             } else {
-                icon = '💪';
-                msg = '¡Muy bien! Tienes una base sólida 💪';
+                icon = '\uD83D\uDCAA';
+                msg = '\u00a1Muy bien! Tienes una base s\u00f3lida \uD83D\uDCAA';
             }
         } else {
-            if (score >= 10) {
-                icon = '📖';
-                msg = '¡Buen esfuerzo! Sigue repasando el material 📖';
-            } else {
-                icon = '🌱';
-                msg = '¡No te rindas! El conocimiento se construye poco a poco 🌱';
-            }
+            icon = '\uD83D\uDCD6';
+            msg = 'Necesitas repasar el material. \u00a1T\u00fa puedes!';
         }
 
         document.getElementById('results-icon').textContent = icon;
@@ -1061,41 +1076,39 @@
             /* Aprobado: mostrar formulario de registro */
             document.getElementById('results-form-section').classList.remove('hidden');
 
-            /* Pre-llenar nombre desde la pantalla de bienvenida */
             document.getElementById('res-nombre').value = studentName;
             document.getElementById('res-email').value = '';
             document.getElementById('res-telefono').value = '';
+            document.getElementById('res-curp').value = '';
             document.getElementById('submit-error').textContent = '';
             clearFieldError('res-nombre', 'res-nombre-error');
             clearFieldError('res-email', 'res-email-error');
             clearFieldError('res-telefono', 'res-telefono-error');
 
-            /* Resetear estado del botón */
             btnSubmit.disabled = false;
-            btnSubmit.textContent = 'Enviar mis resultados';
+            btnSubmit.textContent = 'Enviar y obtener mi diploma';
             isSubmitting = false;
         } else {
-            /* No aprobado: mostrar invitación a reintentar */
+            /* No aprobado: mostrar invitaci\u00f3n a reintentar */
             document.getElementById('retry-section').classList.remove('hidden');
         }
     }
 
     /* ==========================================================
-       ENVÍO DE RESULTADOS AL APPS SCRIPT
+       ENV\u00cdO DE RESULTADOS AL WEBHOOK n8n
        ========================================================== */
     btnSubmit.addEventListener('click', function() {
         if (isSubmitting) return;
 
-        /* Limpiar errores previos */
         clearFieldError('res-nombre', 'res-nombre-error');
         clearFieldError('res-email', 'res-email-error');
         clearFieldError('res-telefono', 'res-telefono-error');
         document.getElementById('submit-error').textContent = '';
 
-        /* Validar campos */
         var nombre   = sanitizeName(document.getElementById('res-nombre').value);
         var email    = sanitizeEmail(document.getElementById('res-email').value);
         var telefono = sanitizePhone(document.getElementById('res-telefono').value);
+        var curp     = document.getElementById('res-curp').value.trim().substring(0, 18).toUpperCase();
 
         var errNombre   = validateName(nombre);
         var errEmail    = validateEmail(email);
@@ -1117,18 +1130,12 @@
 
         if (hasError) return;
 
-        /* Verificar que SCRIPT_URL esté configurada */
-        if (!SCRIPT_URL || SCRIPT_URL === 'PENDIENTE') {
-            document.getElementById('submit-error').textContent =
-                'El sistema de registro aún no está configurado. Contacta al administrador.';
-            return;
-        }
+        /* Honeypot check */
+        if (document.getElementById('res-website').value) return;
 
-        /* Prevenir doble submit */
         isSubmitting = true;
         btnSubmit.disabled = true;
 
-        /* Mostrar spinner en el botón */
         while (btnSubmit.firstChild) btnSubmit.removeChild(btnSubmit.firstChild);
         var spinnerEl = document.createElement('span');
         spinnerEl.className = 'spinner';
@@ -1136,43 +1143,30 @@
         var spinText = document.createTextNode(' Enviando...');
         btnSubmit.appendChild(spinText);
 
-        /* Payload — la fecha la genera el servidor, no el cliente */
         var payload = {
             nombre: nombre,
             email: email,
             telefono: telefono,
+            curp: curp || '',
             score: score,
-            hp: document.getElementById('res-website').value
+            total: 28,
+            curso: 'Aparatolog\u00eda Corporal'
         };
 
-        /* Enviar al Apps Script
-           Se usa text/plain para evitar preflight CORS (OPTIONS).
-           Apps Script recibe el body en e.postData.contents. */
-        fetch(SCRIPT_URL, {
+        fetch(WEBHOOK_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload),
-            redirect: 'follow'
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         })
         .then(function(response) {
             if (!response.ok) throw new Error('HTTP ' + response.status);
-            return response.json();
-        })
-        .then(function(data) {
-            if (data.success) {
-                /* Éxito: ocultar formulario, mostrar mensaje institucional */
-                document.getElementById('results-form-section').classList.add('hidden');
-                document.getElementById('institutional-msg').classList.remove('hidden');
-            } else {
-                /* Error del servidor */
-                document.getElementById('submit-error').textContent =
-                    data.error || 'Ocurrió un error al guardar. Intenta de nuevo.';
-                resetSubmitButton();
-            }
+            /* \u00c9xito: ocultar formulario, mostrar mensaje */
+            document.getElementById('results-form-section').classList.add('hidden');
+            document.getElementById('institutional-msg').classList.remove('hidden');
         })
         .catch(function() {
             document.getElementById('submit-error').textContent =
-                'No se pudo conectar con el servidor. Verifica tu conexión e intenta de nuevo.';
+                '\u26a0\ufe0f Hubo un problema al enviar tus datos. Por favor intenta de nuevo o escr\u00edbenos al 3311337820.';
             resetSubmitButton();
         });
     });
@@ -1180,10 +1174,9 @@
     function resetSubmitButton() {
         isSubmitting = false;
         btnSubmit.disabled = false;
-        btnSubmit.textContent = 'Enviar mis resultados';
+        btnSubmit.textContent = 'Enviar y obtener mi diploma';
     }
 
-    /* Limpiar errores al escribir en los campos del formulario de resultados */
     ['res-nombre', 'res-email', 'res-telefono'].forEach(function(id) {
         document.getElementById(id).addEventListener('input', function() {
             clearFieldError(id, id + '-error');
@@ -1194,21 +1187,6 @@
     /* ==========================================================
        REINICIAR QUIZ
        ========================================================== */
-    btnRestart.addEventListener('click', function() {
-        studentName = '';
-        currentQ = 0;
-        score = 0;
-        answered = false;
-        questionFailed = false;
-        isStarting = false;
-        isSubmitting = false;
-        inputName.value = '';
-        nameError.textContent = '';
-        inputName.classList.remove('input-error');
-        showScreen(screenWelcome);
-    });
-
-    /* Intentar de nuevo — reinicia el quiz conservando el nombre */
     btnRetry.addEventListener('click', function() {
         currentQ = 0;
         score = 0;
