@@ -515,46 +515,6 @@
             margin-bottom: 6px;
         }
 
-        .premium-section { margin-top: 28px; padding-top: 20px; }
-        .premium-divider { text-align: center; border-top: 1px solid #e0e0e0; position: relative; margin-bottom: 18px; }
-        .premium-divider span { background: white; padding: 0 12px; position: relative; top: -10px; font-size: 13px; color: #888; }
-        .premium-card { background: linear-gradient(135deg, #fff8f0 0%, #fff3e6 100%); border: 1px solid #f0a04a; border-radius: 10px; padding: 20px; text-align: center; }
-        .premium-card h3 { color: #E8750A; margin-bottom: 10px; font-size: 16px; }
-        .premium-card p { font-size: 14px; color: #555; margin-bottom: 10px; line-height: 1.5; }
-        .btn-premium { background: #E8750A; color: white; border: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
-        .btn-premium:hover { background: #c96208; }
-        .btn-opcion { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #E8750A; background: white; color: #E8750A; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
-        .btn-opcion:hover { background: #fff3e6; }
-
-        .curp-box {
-            margin-top: 16px;
-            padding: 14px;
-            border: 1.5px dashed #E8750A;
-            border-radius: 8px;
-            background: white;
-            text-align: left;
-        }
-        .curp-box-label {
-            font-size: 13px;
-            font-weight: bold;
-            color: #E8750A;
-            margin-bottom: 8px;
-        }
-        .curp-box input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-        .curp-hint {
-            display: block;
-            font-size: 11px;
-            color: #999;
-            margin-top: 4px;
-        }
-
         .hidden { display: none; }
 
         /* ===== RESPONSIVE ===== */
@@ -647,22 +607,6 @@
                     <label for="res-telefono">N&uacute;mero de tel&eacute;fono</label>
                     <input type="tel" id="res-telefono" name="telefono" required />
                     <p id="res-telefono-error" class="error-msg"></p>
-                </div>
-                <div class="premium-section">
-                    <div class="premium-divider">
-                        <span>&#x2728; &iquest;Quieres m&aacute;s?</span>
-                    </div>
-                    <div class="premium-card">
-                        <h3>&#x1F3C6; Constancia DC-3 Oficial</h3>
-                        <p>Con el plan <strong>Premium</strong> obtienes tu <strong>Constancia de Habilidades Laborales DC-3</strong> avalada por la Secretar&iacute;a del Trabajo y Previsi&oacute;n Social &mdash; v&aacute;lida ante empresas e instituciones en M&eacute;xico.</p>
-                        <p style="font-size:13px; color:#666;">$50 USD/mes &middot; Incluye todo el contenido Standard + 3 sesiones en vivo al mes con Betty</p>
-                        <button type="button" id="btn-premium" class="btn-premium">Quiero mi Constancia DC-3 &rarr;</button>
-                        <div class="curp-box">
-                            <p class="curp-box-label">&iquest;Ya eres Premium?</p>
-                            <input type="text" id="curp" name="curp" placeholder="Ingresa tu CURP aqu&iacute;" maxlength="18" style="text-transform: uppercase;" />
-                            <span class="curp-hint">Ej: LOHE850101MJCPRN09 &middot; 18 caracteres</span>
-                        </div>
-                    </div>
                 </div>
                 <!-- Honeypot anti-bot: campo invisible, si se llena es bot -->
                 <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
@@ -1084,8 +1028,6 @@
             document.getElementById('res-nombre').value = studentName;
             document.getElementById('res-email').value = '';
             document.getElementById('res-telefono').value = '';
-            document.getElementById('curp').value = '';
-            document.getElementById('btn-premium').style.display = '';
             document.getElementById('submit-error').textContent = '';
             clearFieldError('res-nombre', 'res-nombre-error');
             clearFieldError('res-email', 'res-email-error');
@@ -1128,32 +1070,6 @@
     }
 
     /* ==========================================================
-       PREMIUM BUTTON FLOW
-       ========================================================== */
-    document.addEventListener('click', function(e) {
-        if (e.target.id === 'btn-premium') {
-            var card = document.querySelector('.premium-card');
-            var btnEl = document.getElementById('btn-premium');
-            btnEl.style.display = 'none';
-            var optDiv = document.createElement('div');
-            optDiv.innerHTML = '<p><strong>&iquest;C&oacute;mo prefieres pagar tu membres&iacute;a Premium?</strong></p>' +
-                '<button type="button" id="btn-tarjeta" class="btn-opcion">&#x1F4B3; Tarjeta de cr&eacute;dito o d&eacute;bito</button>' +
-                '<button type="button" id="btn-transferencia" class="btn-opcion">&#x1F3E6; Transferencia SPEI u OXXO</button>';
-            card.querySelector('.curp-box').before(optDiv);
-        }
-        if (e.target.id === 'btn-tarjeta') {
-            window.open('https://www.skool.com/quinto-elemento-pro-8427/plans', '_blank');
-        }
-        if (e.target.id === 'btn-transferencia') {
-            var msgDiv = document.createElement('p');
-            msgDiv.style.cssText = 'margin-top:12px;font-size:14px;color:#555;';
-            msgDiv.innerHTML = 'Escr&iacute;benos por WhatsApp al <a href="https://wa.me/523311337820?text=Hola%2C%20quiero%20inscribirme%20al%20plan%20Premium" target="_blank" style="color:#E8750A;font-weight:bold;">33 1133 7820</a> y te ayudamos con tu pago.';
-            e.target.parentNode.appendChild(msgDiv);
-            e.target.disabled = true;
-        }
-    });
-
-    /* ==========================================================
        ENV\u00cdO DE RESULTADOS AL WEBHOOK n8n
        ========================================================== */
     btnSubmit.addEventListener('click', function() {
@@ -1167,7 +1083,6 @@
         var nombre   = capitalizarNombre(sanitizeName(document.getElementById('res-nombre').value));
         var email    = sanitizeEmail(document.getElementById('res-email').value);
         var telefono = iti.getNumber();
-        var curp     = document.getElementById('curp').value.trim().substring(0, 18).toUpperCase();
 
         var errNombre   = validateName(nombre);
         var errEmail    = validateEmail(email);
@@ -1206,7 +1121,7 @@
             nombre: capitalizarNombre(nombre),
             email: email,
             telefono: telefono,
-            curp: curp || '',
+            curp: '',
             score: score,
             total: 15,
             curso: 'Masaje Modelador, Reductivo Anticelul\u00edtico'
