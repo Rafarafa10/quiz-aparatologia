@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://n8n.quintoelemento.com.mx">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https://cdnjs.cloudflare.com; connect-src 'self' https://n8n.quintoelemento.com.mx">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <title>Evaluaci&oacute;n &ndash; Aparatolog&iacute;a Corporal</title>
     <style>
         /* ===== RESET Y VARIABLES ===== */
@@ -505,6 +507,25 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        .field-hint {
+            display: block;
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+            margin-bottom: 6px;
+        }
+
+        .premium-section { margin-top: 28px; padding-top: 20px; }
+        .premium-divider { text-align: center; border-top: 1px solid #e0e0e0; position: relative; margin-bottom: 18px; }
+        .premium-divider span { background: white; padding: 0 12px; position: relative; top: -10px; font-size: 13px; color: #888; }
+        .premium-card { background: linear-gradient(135deg, #fff8f0 0%, #fff3e6 100%); border: 1px solid #f0a04a; border-radius: 10px; padding: 20px; text-align: center; }
+        .premium-card h3 { color: #E8750A; margin-bottom: 10px; font-size: 16px; }
+        .premium-card p { font-size: 14px; color: #555; margin-bottom: 10px; line-height: 1.5; }
+        .btn-premium { background: #E8750A; color: white; border: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
+        .btn-premium:hover { background: #c96208; }
+        .btn-opcion { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #E8750A; background: white; color: #E8750A; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .btn-opcion:hover { background: #fff3e6; }
+
         .hidden { display: none; }
 
         /* ===== RESPONSIVE ===== */
@@ -581,20 +602,21 @@
                 <p class="form-intro">Por favor llena los datos a continuaci&oacute;n para obtener tu diploma.</p>
                 <div class="input-group">
                     <label for="res-nombre">Nombre completo</label>
+                    <span class="field-hint">Escr&iacute;belo correctamente &mdash; as&iacute; aparecer&aacute; en tu diploma</span>
                     <input type="text" id="res-nombre" maxlength="80"
                            placeholder="Tu nombre completo" autocomplete="name">
                     <p id="res-nombre-error" class="error-msg"></p>
                 </div>
                 <div class="input-group">
                     <label for="res-email">Correo electr&oacute;nico</label>
+                    <span class="field-hint">Usa el mismo correo con el que te suscribiste al Club Quinto Elemento</span>
                     <input type="email" id="res-email" maxlength="120"
                            placeholder="ejemplo@correo.com" autocomplete="email">
                     <p id="res-email-error" class="error-msg"></p>
                 </div>
-                <div class="input-group">
+                <div class="form-group">
                     <label for="res-telefono">N&uacute;mero de tel&eacute;fono</label>
-                    <input type="tel" id="res-telefono" maxlength="15"
-                           placeholder="+523312345678" autocomplete="tel">
+                    <input type="tel" id="res-telefono" name="telefono" required />
                     <p id="res-telefono-error" class="error-msg"></p>
                 </div>
                 <div class="input-group">
@@ -602,6 +624,17 @@
                     <input type="text" id="res-curp" maxlength="18"
                            placeholder="Ej: LOHE850101MJCPRN09" autocomplete="off">
                     <p class="input-hint">Si actualmente perteneces al tier Premium en Club Quinto Elemento, incluye tu CURP para generar tu Constancia DC-3</p>
+                </div>
+                <div class="premium-section">
+                    <div class="premium-divider">
+                        <span>&#x2728; &iquest;Quieres m&aacute;s?</span>
+                    </div>
+                    <div class="premium-card">
+                        <h3>&#x1F3C6; Constancia DC-3 Oficial</h3>
+                        <p>Con el plan <strong>Premium</strong> obtienes tu <strong>Constancia de Habilidades Laborales DC-3</strong> avalada por la Secretar&iacute;a del Trabajo y Previsi&oacute;n Social &mdash; v&aacute;lida ante empresas e instituciones en M&eacute;xico.</p>
+                        <p style="font-size:13px; color:#666;">$50 USD/mes &middot; Incluye todo el contenido Standard + 3 sesiones en vivo al mes con Betty</p>
+                        <button type="button" id="btn-premium" class="btn-premium">Quiero mi Constancia DC-3 &rarr;</button>
+                    </div>
                 </div>
                 <!-- Honeypot anti-bot: campo invisible, si se llena es bot -->
                 <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
@@ -1095,6 +1128,55 @@
     }
 
     /* ==========================================================
+       INTL-TEL-INPUT: Selector de pa\u00eds para tel\u00e9fono
+       ========================================================== */
+    var phoneInput = document.querySelector("#res-telefono");
+    var iti = window.intlTelInput(phoneInput, {
+        initialCountry: "mx",
+        preferredCountries: ["mx", "us", "co", "ar", "cl", "pe"],
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
+
+    /* ==========================================================
+       AUTO-CAPITALIZAR NOMBRE AL ESCRIBIR
+       ========================================================== */
+    document.getElementById('res-nombre').addEventListener('input', function() {
+        var pos = this.selectionStart;
+        this.value = this.value.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+        this.setSelectionRange(pos, pos);
+    });
+
+    /* ==========================================================
+       CAPITALIZAR NOMBRE HELPER
+       ========================================================== */
+    function capitalizarNombre(str) {
+        return str.trim().replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    }
+
+    /* ==========================================================
+       PREMIUM BUTTON FLOW
+       ========================================================== */
+    document.addEventListener('click', function(e) {
+        if (e.target.id === 'btn-premium') {
+            var card = document.querySelector('.premium-card');
+            card.innerHTML = '<p><strong>\u00bfC\u00f3mo prefieres pagar tu membres\u00eda Premium?</strong></p>' +
+                '<button type="button" id="btn-tarjeta" class="btn-opcion">\uD83D\uDCB3 Tarjeta de cr\u00e9dito o d\u00e9bito</button>' +
+                '<button type="button" id="btn-transferencia" class="btn-opcion">\uD83C\uDFE6 Transferencia SPEI u OXXO</button>';
+        }
+        if (e.target.id === 'btn-tarjeta') {
+            window.open('https://www.skool.com/quinto-elemento-pro-8427/plans', '_blank');
+        }
+        if (e.target.id === 'btn-transferencia') {
+            var card = document.querySelector('.premium-card');
+            card.innerHTML = '<div style="text-align:center; padding: 10px;">' +
+                '<p style="font-size:15px; font-weight:bold; color:#E8750A;">\u00a1Perfecto! \uD83C\uDF3F</p>' +
+                '<p style="font-size:14px; color:#555; line-height:1.6;">En un momento nuestro agente se pondr\u00e1 en contacto contigo por WhatsApp para tomar tus datos, recibir tu comprobante y darte acceso a la Constancia DC-3 y todo el contenido Premium.</p>' +
+                '<p style="font-size:13px; color:#888;">Tambi\u00e9n puedes escribirnos directamente al <strong>33 1133 7820</strong></p></div>';
+        }
+    });
+
+    /* ==========================================================
        ENV\u00cdO DE RESULTADOS AL WEBHOOK n8n
        ========================================================== */
     btnSubmit.addEventListener('click', function() {
@@ -1105,9 +1187,9 @@
         clearFieldError('res-telefono', 'res-telefono-error');
         document.getElementById('submit-error').textContent = '';
 
-        var nombre   = sanitizeName(document.getElementById('res-nombre').value);
+        var nombre   = capitalizarNombre(sanitizeName(document.getElementById('res-nombre').value));
         var email    = sanitizeEmail(document.getElementById('res-email').value);
-        var telefono = sanitizePhone(document.getElementById('res-telefono').value);
+        var telefono = iti.getNumber();
         var curp     = document.getElementById('res-curp').value.trim().substring(0, 18).toUpperCase();
 
         var errNombre   = validateName(nombre);
@@ -1144,7 +1226,7 @@
         btnSubmit.appendChild(spinText);
 
         var payload = {
-            nombre: nombre,
+            nombre: capitalizarNombre(nombre),
             email: email,
             telefono: telefono,
             curp: curp || '',
