@@ -526,6 +526,28 @@
         .btn-opcion { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #E8750A; background: white; color: #E8750A; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .btn-opcion:hover { background: #fff3e6; }
 
+        #curp-premium-section {
+            display: none;
+            margin-top: 16px;
+            text-align: left;
+        }
+        #curp-premium-section.visible {
+            display: block;
+        }
+        #curp-premium-section input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #E8750A;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        #curp-premium-section .curp-hint {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
         .hidden { display: none; }
 
         /* ===== RESPONSIVE ===== */
@@ -619,12 +641,6 @@
                     <input type="tel" id="res-telefono" name="telefono" required />
                     <p id="res-telefono-error" class="error-msg"></p>
                 </div>
-                <div class="input-group">
-                    <label for="res-curp">CURP (opcional)</label>
-                    <input type="text" id="res-curp" maxlength="18"
-                           placeholder="Ej: LOHE850101MJCPRN09" autocomplete="off">
-                    <p class="input-hint">Si actualmente perteneces al tier Premium en Club Quinto Elemento, incluye tu CURP para generar tu Constancia DC-3</p>
-                </div>
                 <div class="premium-section">
                     <div class="premium-divider">
                         <span>&#x2728; &iquest;Quieres m&aacute;s?</span>
@@ -634,6 +650,10 @@
                         <p>Con el plan <strong>Premium</strong> obtienes tu <strong>Constancia de Habilidades Laborales DC-3</strong> avalada por la Secretar&iacute;a del Trabajo y Previsi&oacute;n Social &mdash; v&aacute;lida ante empresas e instituciones en M&eacute;xico.</p>
                         <p style="font-size:13px; color:#666;">$50 USD/mes &middot; Incluye todo el contenido Standard + 3 sesiones en vivo al mes con Betty</p>
                         <button type="button" id="btn-premium" class="btn-premium">Quiero mi Constancia DC-3 &rarr;</button>
+                        <div id="curp-premium-section">
+                            <input type="text" id="curp" name="curp" placeholder="Si ya eres Premium, ingresa tu CURP" maxlength="18" style="text-transform: uppercase;" />
+                            <span class="curp-hint">Ej: LOHE850101MJCPRN09 &middot; 18 caracteres</span>
+                        </div>
                     </div>
                 </div>
                 <!-- Honeypot anti-bot: campo invisible, si se llena es bot -->
@@ -1083,7 +1103,7 @@
         if (aprobado) {
             if (score >= 26) {
                 icon = '\uD83C\uDF1F';
-                msg = '\u00a1Excelente desempe\u00f1o! Eres toda una experta \uD83C\uDF1F';
+                msg = '\u00a1Demuestras un gran dominio del tema! \uD83C\uDF1F';
             } else {
                 icon = '\uD83D\uDCAA';
                 msg = '\u00a1Muy bien! Tienes una base s\u00f3lida \uD83D\uDCAA';
@@ -1112,7 +1132,9 @@
             document.getElementById('res-nombre').value = studentName;
             document.getElementById('res-email').value = '';
             document.getElementById('res-telefono').value = '';
-            document.getElementById('res-curp').value = '';
+            document.getElementById('curp').value = '';
+            document.getElementById('curp-premium-section').classList.remove('visible');
+            document.getElementById('btn-premium').style.display = '';
             document.getElementById('submit-error').textContent = '';
             clearFieldError('res-nombre', 'res-nombre-error');
             clearFieldError('res-email', 'res-email-error');
@@ -1159,20 +1181,9 @@
        ========================================================== */
     document.addEventListener('click', function(e) {
         if (e.target.id === 'btn-premium') {
-            var card = document.querySelector('.premium-card');
-            card.innerHTML = '<p><strong>\u00bfC\u00f3mo prefieres pagar tu membres\u00eda Premium?</strong></p>' +
-                '<button type="button" id="btn-tarjeta" class="btn-opcion">\uD83D\uDCB3 Tarjeta de cr\u00e9dito o d\u00e9bito</button>' +
-                '<button type="button" id="btn-transferencia" class="btn-opcion">\uD83C\uDFE6 Transferencia SPEI u OXXO</button>';
-        }
-        if (e.target.id === 'btn-tarjeta') {
-            window.open('https://www.skool.com/quinto-elemento-pro-8427/plans', '_blank');
-        }
-        if (e.target.id === 'btn-transferencia') {
-            var card = document.querySelector('.premium-card');
-            card.innerHTML = '<div style="text-align:center; padding: 10px;">' +
-                '<p style="font-size:15px; font-weight:bold; color:#E8750A;">\u00a1Perfecto! \uD83C\uDF3F</p>' +
-                '<p style="font-size:14px; color:#555; line-height:1.6;">En un momento nuestro agente se pondr\u00e1 en contacto contigo por WhatsApp para tomar tus datos, recibir tu comprobante y darte acceso a la Constancia DC-3 y todo el contenido Premium.</p>' +
-                '<p style="font-size:13px; color:#888;">Tambi\u00e9n puedes escribirnos directamente al <strong>33 1133 7820</strong></p></div>';
+            e.target.style.display = 'none';
+            document.getElementById('curp-premium-section').classList.add('visible');
+            btnSubmit.textContent = 'Enviar y obtener mi diploma + Constancia DC-3';
         }
     });
 
@@ -1190,7 +1201,7 @@
         var nombre   = capitalizarNombre(sanitizeName(document.getElementById('res-nombre').value));
         var email    = sanitizeEmail(document.getElementById('res-email').value);
         var telefono = iti.getNumber();
-        var curp     = document.getElementById('res-curp').value.trim().substring(0, 18).toUpperCase();
+        var curp     = document.getElementById('curp').value.trim().substring(0, 18).toUpperCase();
 
         var errNombre   = validateName(nombre);
         var errEmail    = validateEmail(email);
@@ -1256,7 +1267,10 @@
     function resetSubmitButton() {
         isSubmitting = false;
         btnSubmit.disabled = false;
-        btnSubmit.textContent = 'Enviar y obtener mi diploma';
+        var isPremium = document.getElementById('curp-premium-section').classList.contains('visible');
+        btnSubmit.textContent = isPremium
+            ? 'Enviar y obtener mi diploma + Constancia DC-3'
+            : 'Enviar y obtener mi diploma';
     }
 
     ['res-nombre', 'res-email', 'res-telefono'].forEach(function(id) {
