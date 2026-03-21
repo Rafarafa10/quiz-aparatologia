@@ -1,1 +1,1262 @@
-<\!DOCTYPE html><html><head><meta charset="UTF-8"><title>Próximamente - Betty's Aparatología</title><style>body{font-family:system-ui,sans-serif;max-width:500px;margin:100px auto;text-align:center;color:#2D2D2D}h1{color:#5E8168;font-size:1.3rem}a{color:#5E8168}</style></head><body><h1>Este quiz estará disponible próximamente</h1><p><a href="/">← Volver al inicio</a></p></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https://cdnjs.cloudflare.com; connect-src 'self' https://n8n.quintoelemento.com.mx">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+    <title>Evaluaci&oacute;n &ndash; Masaje Modelador, Reductivo Anticelul&iacute;tico</title>
+    <style>
+        /* ===== RESET Y VARIABLES ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #FAFAF8;
+            --card: #FFFFFF;
+            --salvia: #7C9E8A;
+            --salvia-dark: #5E8168;
+            --rosa: #E8C5C1;
+            --rosa-dark: #C9A09A;
+            --dorado: #C9A96E;
+            --dorado-dark: #A8894E;
+            --text: #2D2D2D;
+            --text-light: #6B6B6B;
+            --correct: #5B9A6F;
+            --correct-bg: #E8F5EC;
+            --correct-border: #3D7A50;
+            --incorrect: #C75555;
+            --incorrect-bg: #FDECEC;
+            --incorrect-border: #A83D3D;
+            --border: #E8E2DC;
+            --shadow: 0 4px 24px rgba(124, 158, 138, 0.12);
+            --radius: 14px;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px 16px;
+            line-height: 1.6;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* ===== PANTALLAS ===== */
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== BIENVENIDA ===== */
+        .welcome-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 48px 36px;
+            text-align: center;
+            border-top: 4px solid var(--salvia);
+        }
+
+        .welcome-icon {
+            font-size: 60px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .welcome-card h1 {
+            font-size: 1.5rem;
+            color: var(--salvia-dark);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .welcome-card .subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+
+        .brand-line {
+            display: inline-block;
+            background: var(--rosa);
+            color: var(--rosa-dark);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        /* ===== INPUTS ===== */
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--salvia-dark);
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.25s;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--salvia);
+        }
+
+        .input-group input.input-error {
+            border-color: var(--incorrect);
+        }
+
+        .input-hint {
+            color: var(--text-light);
+            font-size: 0.82rem;
+            margin-top: 6px;
+            line-height: 1.45;
+        }
+
+        .error-msg {
+            color: var(--incorrect);
+            font-size: 0.85rem;
+            margin-top: 6px;
+            min-height: 1.3em;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.15s, opacity 0.25s;
+        }
+
+        .btn:active { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-primary {
+            background: var(--salvia);
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) { background: var(--salvia-dark); }
+
+        .btn-secondary {
+            background: var(--dorado);
+            color: #fff;
+        }
+
+        .btn-secondary:hover:not(:disabled) { background: var(--dorado-dark); }
+
+        /* ===== QUIZ: HEADER Y PROGRESO ===== */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.88rem;
+            color: var(--text-light);
+        }
+
+        .quiz-header .student-name {
+            font-weight: 600;
+            color: var(--salvia-dark);
+            max-width: 55%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .progress-container {
+            background: var(--border);
+            border-radius: 20px;
+            height: 8px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--rosa), var(--salvia));
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* ===== QUIZ: TARJETA DE PREGUNTA ===== */
+        .question-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 32px 28px;
+        }
+
+        .question-inner {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .question-category {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--salvia), var(--dorado));
+            color: #fff;
+            font-size: 0.73rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .question-text {
+            font-size: 1.12rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        /* ===== QUIZ: OPCIONES ===== */
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 15px 20px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg);
+            font-size: 0.96rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, transform 0.12s, opacity 0.2s;
+            color: var(--text);
+            line-height: 1.45;
+        }
+
+        .option-btn:hover:not(:disabled):not(.selected-correct):not(.selected-incorrect):not(.reveal-correct):not(.dimmed) {
+            border-color: var(--salvia);
+            background: #F2F7F4;
+            transform: translateY(-1px);
+        }
+
+        .option-btn:disabled { cursor: default; transform: none; }
+
+        .option-btn.selected-correct {
+            border-color: var(--correct-border);
+            background: var(--correct-bg);
+            color: var(--correct-border);
+            font-weight: 600;
+        }
+
+        .option-btn.selected-incorrect {
+            border-color: var(--incorrect-border);
+            background: var(--incorrect-bg);
+            color: var(--incorrect-border);
+            font-weight: 600;
+        }
+
+        .option-btn.reveal-correct {
+            border-color: var(--correct-border);
+            background: var(--correct-bg);
+            color: var(--correct-border);
+            font-weight: 600;
+        }
+
+        .option-btn.dimmed { opacity: 0.45; }
+
+        /* ===== QUIZ: FEEDBACK ===== */
+        .feedback-box {
+            margin-top: 20px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.55;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-box.correct {
+            background: var(--correct-bg);
+            color: #2D6B3F;
+            border-left: 4px solid var(--correct);
+        }
+
+        .feedback-box.incorrect {
+            background: var(--incorrect-bg);
+            color: #8B3030;
+            border-left: 4px solid var(--incorrect);
+        }
+
+        .next-btn-wrap {
+            text-align: center;
+            margin-top: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== RESULTADOS ===== */
+        .results-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 48px 36px;
+            text-align: center;
+            border-top: 4px solid var(--dorado);
+        }
+
+        .results-icon { font-size: 52px; margin-bottom: 12px; display: block; }
+
+        .results-card h2 {
+            font-size: 1.35rem;
+            color: var(--salvia-dark);
+            margin-bottom: 4px;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 16px 0 4px;
+            background: linear-gradient(135deg, var(--salvia), var(--dorado));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-label {
+            color: var(--text-light);
+            font-size: 0.92rem;
+            margin-bottom: 20px;
+        }
+
+        .result-message {
+            font-size: 1.08rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            color: var(--text);
+        }
+
+        /* ===== RESULTADOS: FORMULARIO DE CAPTURA ===== */
+        .results-form-section {
+            text-align: left;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-intro {
+            text-align: center;
+            font-weight: 600;
+            color: var(--salvia-dark);
+            margin-bottom: 20px;
+            font-size: 0.98rem;
+        }
+
+        .results-form-section .input-group { margin-bottom: 16px; }
+        .results-form-section .input-group:last-of-type { margin-bottom: 20px; }
+
+        .submit-wrap {
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            background: var(--salvia);
+            color: #fff;
+            transition: background 0.25s, transform 0.15s, opacity 0.25s;
+            min-width: 220px;
+        }
+
+        .btn-submit:hover:not(:disabled) { background: var(--salvia-dark); }
+        .btn-submit:active:not(:disabled) { transform: scale(0.97); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Spinner CSS puro */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .submit-error {
+            color: var(--incorrect);
+            font-size: 0.88rem;
+            margin-top: 12px;
+            text-align: center;
+            min-height: 1.3em;
+        }
+
+        /* ===== MENSAJE INSTITUCIONAL ===== */
+        .retry-section {
+            text-align: center;
+            margin: 24px 0;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .retry-msg {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .institutional-msg {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 20px 24px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.65;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .footer-text {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            margin-top: 28px;
+            opacity: 0.5;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: rgba(45, 45, 45, 0.92);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 999;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .field-hint {
+            display: block;
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+            margin-bottom: 6px;
+        }
+
+        .premium-section { margin-top: 28px; padding-top: 20px; }
+        .premium-divider { text-align: center; border-top: 1px solid #e0e0e0; position: relative; margin-bottom: 18px; }
+        .premium-divider span { background: white; padding: 0 12px; position: relative; top: -10px; font-size: 13px; color: #888; }
+        .premium-card { background: linear-gradient(135deg, #fff8f0 0%, #fff3e6 100%); border: 1px solid #f0a04a; border-radius: 10px; padding: 20px; text-align: center; }
+        .premium-card h3 { color: #E8750A; margin-bottom: 10px; font-size: 16px; }
+        .premium-card p { font-size: 14px; color: #555; margin-bottom: 10px; line-height: 1.5; }
+        .btn-premium { background: #E8750A; color: white; border: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
+        .btn-premium:hover { background: #c96208; }
+        .btn-opcion { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #E8750A; background: white; color: #E8750A; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .btn-opcion:hover { background: #fff3e6; }
+
+        .curp-box {
+            margin-top: 16px;
+            padding: 14px;
+            border: 1.5px dashed #E8750A;
+            border-radius: 8px;
+            background: white;
+            text-align: left;
+        }
+        .curp-box-label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #E8750A;
+            margin-bottom: 8px;
+        }
+        .curp-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .curp-hint {
+            display: block;
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .hidden { display: none; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 520px) {
+            body { padding: 12px 8px; }
+            .welcome-card, .question-card, .results-card { padding: 28px 18px; }
+            .results-form-section { padding: 20px 16px; }
+            .welcome-card h1 { font-size: 1.25rem; }
+            .question-text { font-size: 1.02rem; }
+            .option-btn { padding: 13px 15px; font-size: 0.9rem; }
+            .score-display { font-size: 2.4rem; }
+            .btn, .btn-submit { padding: 13px 24px; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== PANTALLA 1: BIENVENIDA ===== -->
+    <div id="screen-welcome" class="screen active">
+        <div class="welcome-card">
+            <span class="welcome-icon" role="img" aria-label="spa">&#x1F486;&#x200D;&#x2640;&#xFE0F;</span>
+            <span class="brand-line">Club Quinto Elemento</span>
+            <h1>Evaluaci&oacute;n &ndash; Masaje Modelador, Reductivo Anticelul&iacute;tico</h1>
+            <p class="subtitle">Responde con calma, conf&iacute;a en lo que aprendiste &#x2728;</p>
+            <div class="input-group">
+                <label for="student-name">&iquest;Cu&aacute;l es tu nombre completo?</label>
+                <input type="text" id="student-name" maxlength="80"
+                       placeholder="Ej: Mar&iacute;a L&oacute;pez Hern&aacute;ndez" autocomplete="name">
+                <p id="name-error" class="error-msg"></p>
+            </div>
+            <button class="btn btn-primary" id="btn-start">Comenzar evaluaci&oacute;n &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== PANTALLA 2: QUIZ ===== -->
+    <div id="screen-quiz" class="screen">
+        <div class="quiz-header">
+            <span class="student-name" id="quiz-student-name"></span>
+            <span id="quiz-progress-text"></span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="question-card">
+            <div class="question-inner" id="question-inner">
+                <span class="question-category" id="question-category"></span>
+                <p class="question-text" id="question-text"></p>
+                <ul class="options-list" id="options-list"></ul>
+                <div id="feedback-area"></div>
+                <div id="next-btn-area"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PANTALLA 3: RESULTADOS ===== -->
+    <div id="screen-results" class="screen">
+        <div class="results-card">
+            <span class="results-icon" id="results-icon"></span>
+            <h2 id="results-name"></h2>
+            <div class="score-display" id="score-display"></div>
+            <p class="score-label"><span id="score-detail"></span></p>
+            <p class="result-message" id="result-message"></p>
+
+            <!-- Mensaje de no aprobado (oculto por defecto) -->
+            <div class="retry-section hidden" id="retry-section">
+                <p class="retry-msg">Necesitas repasar el material &mdash; puedes intentarlo de nuevo. &iexcl;T&uacute; puedes!</p>
+                <button class="btn btn-primary" id="btn-retry">Reintentar</button>
+            </div>
+
+            <!-- Formulario de captura de datos -->
+            <div class="results-form-section hidden" id="results-form-section">
+                <p class="form-intro">Por favor llena los datos a continuaci&oacute;n para obtener tu diploma.</p>
+                <div class="input-group">
+                    <label for="res-nombre">Nombre completo</label>
+                    <span class="field-hint">Escr&iacute;belo correctamente &mdash; as&iacute; aparecer&aacute; en tu diploma</span>
+                    <input type="text" id="res-nombre" maxlength="80"
+                           placeholder="Tu nombre completo" autocomplete="name">
+                    <p id="res-nombre-error" class="error-msg"></p>
+                </div>
+                <div class="input-group">
+                    <label for="res-email">Correo electr&oacute;nico</label>
+                    <span class="field-hint">Usa el mismo correo con el que te suscribiste al Club Quinto Elemento</span>
+                    <input type="email" id="res-email" maxlength="120"
+                           placeholder="ejemplo@correo.com" autocomplete="email">
+                    <p id="res-email-error" class="error-msg"></p>
+                </div>
+                <div class="form-group">
+                    <label for="res-telefono">N&uacute;mero de tel&eacute;fono</label>
+                    <input type="tel" id="res-telefono" name="telefono" required />
+                    <p id="res-telefono-error" class="error-msg"></p>
+                </div>
+                <div class="premium-section">
+                    <div class="premium-divider">
+                        <span>&#x2728; &iquest;Quieres m&aacute;s?</span>
+                    </div>
+                    <div class="premium-card">
+                        <h3>&#x1F3C6; Constancia DC-3 Oficial</h3>
+                        <p>Con el plan <strong>Premium</strong> obtienes tu <strong>Constancia de Habilidades Laborales DC-3</strong> avalada por la Secretar&iacute;a del Trabajo y Previsi&oacute;n Social &mdash; v&aacute;lida ante empresas e instituciones en M&eacute;xico.</p>
+                        <p style="font-size:13px; color:#666;">$50 USD/mes &middot; Incluye todo el contenido Standard + 3 sesiones en vivo al mes con Betty</p>
+                        <button type="button" id="btn-premium" class="btn-premium">Quiero mi Constancia DC-3 &rarr;</button>
+                        <div class="curp-box">
+                            <p class="curp-box-label">&iquest;Ya eres Premium?</p>
+                            <input type="text" id="curp" name="curp" placeholder="Ingresa tu CURP aqu&iacute;" maxlength="18" style="text-transform: uppercase;" />
+                            <span class="curp-hint">Ej: LOHE850101MJCPRN09 &middot; 18 caracteres</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Honeypot anti-bot: campo invisible, si se llena es bot -->
+                <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+                    <input type="text" id="res-website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="submit-wrap">
+                    <button class="btn-submit" id="btn-submit">Enviar y obtener mi diploma</button>
+                </div>
+                <p class="submit-error" id="submit-error"></p>
+            </div>
+
+            <!-- Mensaje institucional (oculto hasta env&iacute;o exitoso) -->
+            <div class="institutional-msg hidden" id="institutional-msg">
+                &#x2705; &iexcl;Tus datos han sido recibidos! En breve recibir&aacute;s tu diploma en el correo que registraste. &#x1F33F;<br><br>
+                <strong>&mdash; Club Quinto Elemento</strong>
+            </div>
+
+            <p class="footer-text">Club Quinto Elemento <em>by</em> Quinto Elemento Todo En Spa &copy; 2026</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Toast para mensajes del sistema -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+    'use strict';
+
+    /* ==========================================================
+       URL DEL WEBHOOK n8n
+       ========================================================== */
+    var WEBHOOK_URL = 'https://n8n.quintoelemento.com.mx/webhook/quiz-modelador';
+
+    /* ==========================================================
+       PROTECCI\u00d3N: click derecho y atajos de DevTools
+       ========================================================== */
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        showToast('Esta secci\u00f3n est\u00e1 protegida \uD83D\uDD12');
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' ||
+            (e.ctrlKey && e.shiftKey && /^[IJCijc]$/.test(e.key)) ||
+            (e.ctrlKey && /^[Uu]$/.test(e.key))) {
+            e.preventDefault();
+            showToast('Esta secci\u00f3n est\u00e1 protegida \uD83D\uDD12');
+        }
+    });
+
+    /* ==========================================================
+       TOAST
+       ========================================================== */
+    var toastTimer = null;
+    function showToast(msg) {
+        var t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() { t.classList.remove('visible'); }, 2200);
+    }
+
+    /* ==========================================================
+       DATOS DEL QUIZ — 15 preguntas en 5 secciones
+       ========================================================== */
+    var categories = [
+        'Piernas Delanteras', 'Piernas Delanteras', 'Piernas Delanteras',
+        'Abdomen', 'Abdomen', 'Abdomen',
+        'Brazos', 'Brazos', 'Brazos',
+        'Piernas Traseras', 'Piernas Traseras', 'Piernas Traseras',
+        'Espalda', 'Espalda', 'Espalda'
+    ];
+
+    var questions = [
+        /* === PIERNAS DELANTERAS (P1-P3) === */
+        {
+            q: '\u00bfPara qu\u00e9 el cliente te permita abrir bien las piernas, qu\u00e9 se aconseja?',
+            o: ['Poner una toalla de manos en la zona central', 'Poner una s\u00e1bana en la zona central', 'No colocar nada en la zona central']
+        },
+        {
+            q: '\u00bfLa maniobra abanico se llama as\u00ed porque se abre hacia afuera?',
+            o: ['No', 'S\u00ed', 'A veces']
+        },
+        {
+            q: '\u00bfCu\u00e1l es la maniobra que tambi\u00e9n se le llega a decir casita?',
+            o: ['Amasamiento', 'Nudillares', 'Petrissage']
+        },
+        /* === ABDOMEN (P4-P6) === */
+        {
+            q: '\u00bfPara ayudar a nuestro cliente en la digesti\u00f3n, hacia d\u00f3nde se hace el movimiento?',
+            o: ['Hacia las manecillas del reloj', 'De lado contrario hacia las manecillas del reloj', 'Cualquier lado est\u00e1 bien']
+        },
+        {
+            q: '\u00bfCu\u00e1l es la maniobra que ayuda a degradar la grasa?',
+            o: ['Petrissage', 'Amasamiento', 'Drenaje']
+        },
+        {
+            q: '\u00bfEn qu\u00e9 orden se trabaja el abdomen?',
+            o: ['Zona central y despu\u00e9s laterales', 'Zona laterales y despu\u00e9s central', 'No importa el orden']
+        },
+        /* === BRAZOS (P7-P9) === */
+        {
+            q: '\u00bfLe pedimos a la clienta que ponga su mano de cierta forma para poder trabajar el brazo?',
+            o: ['S\u00ed, debajo de su cintura', 'No, puede estar como sea', 'S\u00ed, muy bien estirado']
+        },
+        {
+            q: '\u00bfAl final se pone alg\u00fan sellador?',
+            o: ['S\u00ed, loci\u00f3n reafirmante', 'S\u00ed, gel reafirmante', 'S\u00ed, puede ser loci\u00f3n o gel reafirmante']
+        },
+        {
+            q: '\u00bfLa maniobra de abanico solo sube?',
+            o: ['S\u00ed', 'No', 'Como queramos, no importa']
+        },
+        /* === PIERNAS TRASERAS (P10-P12) === */
+        {
+            q: '\u00bfPrimero va la maniobra de amasamiento y despu\u00e9s la de petrissage?',
+            o: ['No', 'S\u00ed', 'Se puede combinar de varias formas']
+        },
+        {
+            q: '\u00bfC\u00f3mo se llama la maniobra que usamos para el gl\u00fateo?',
+            o: ['Falange distal', 'Falange proximal', 'Falange media']
+        },
+        {
+            q: '\u00bfC\u00f3mo se llama la maniobra de drenaje?',
+            o: ['Amasamiento', 'Petrissage', 'Torniquete']
+        },
+        /* === ESPALDA (P13-P15) === */
+        {
+            q: '\u00bfC\u00f3mo se llama la maniobra para la cintura?',
+            o: ['Petrissage cintura', 'Afinamiento de cintura', 'Amasamiento cintura']
+        },
+        {
+            q: '\u00bfLas maniobras se pueden pasar por columna vertebral?',
+            o: ['No', 'S\u00ed', 'Si el cliente quiere, s\u00ed']
+        },
+        {
+            q: '\u00bfC\u00f3mo se llama la maniobra que se da en zona sacra?',
+            o: ['Fricci\u00f3n', 'Torniquete', 'Amasamiento']
+        }
+    ];
+
+    /* Respuestas correctas ofuscadas en base64 */
+    var _raw = atob('MCwxLDIsMCwxLDAsMCwyLDAsMSwxLDIsMSwwLDA=');
+    var _keys = _raw.split(',').map(function(v) { return parseInt(v, 10); });
+
+    /* Score m\u00ednimo para aprobar: 12 de 15 (80%) */
+    var SCORE_MIN = 12;
+
+    /* ==========================================================
+       ESTADO DE LA APLICACI\u00d3N
+       ========================================================== */
+    var studentName = '';
+    var currentQ = 0;
+    var score = 0;
+    var answered = false;
+    var questionFailed = false;
+    var isStarting = false;
+    var isSubmitting = false;
+
+    /* ==========================================================
+       REFERENCIAS AL DOM
+       ========================================================== */
+    var screenWelcome = document.getElementById('screen-welcome');
+    var screenQuiz    = document.getElementById('screen-quiz');
+    var screenResults = document.getElementById('screen-results');
+    var inputName     = document.getElementById('student-name');
+    var nameError     = document.getElementById('name-error');
+    var btnStart      = document.getElementById('btn-start');
+    var btnSubmit     = document.getElementById('btn-submit');
+    var btnRetry      = document.getElementById('btn-retry');
+
+    /* ==========================================================
+       VALIDACIONES
+       ========================================================== */
+    var nameRegex  = /^[A-Za-z\u00C1\u00C9\u00CD\u00D3\u00DA\u00E1\u00E9\u00ED\u00F3\u00FA\u00D1\u00F1\u00DC\u00FC\s]+$/;
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var phoneRegex = /^[+\d]+$/;
+
+    function sanitizeName(raw) {
+        if (typeof raw !== 'string') return '';
+        return raw.trim().substring(0, 80);
+    }
+
+    function validateName(name) {
+        if (!name) return 'Por favor ingresa tu nombre.';
+        if (name.length < 2) return 'El nombre debe tener al menos 2 caracteres.';
+        if (!nameRegex.test(name)) return 'Solo se permiten letras, espacios y acentos.';
+        return '';
+    }
+
+    function sanitizeEmail(raw) {
+        if (typeof raw !== 'string') return '';
+        return raw.trim().substring(0, 120).toLowerCase();
+    }
+
+    function validateEmail(email) {
+        if (!email) return 'Por favor ingresa tu correo electr\u00f3nico.';
+        if (!emailRegex.test(email)) return 'El formato del correo no es v\u00e1lido.';
+        return '';
+    }
+
+    function sanitizePhone(raw) {
+        if (typeof raw !== 'string') return '';
+        return raw.trim().substring(0, 15);
+    }
+
+    function validatePhone(phone) {
+        if (!phone) return 'Por favor ingresa tu tel\u00e9fono.';
+        if (!phoneRegex.test(phone)) return 'Solo se permiten n\u00fameros y el s\u00edmbolo +.';
+        if (phone.length < 7) return 'El tel\u00e9fono parece muy corto.';
+        return '';
+    }
+
+    function showFieldError(inputId, errorId, msg) {
+        document.getElementById(inputId).classList.add('input-error');
+        document.getElementById(errorId).textContent = msg;
+    }
+
+    function clearFieldError(inputId, errorId) {
+        document.getElementById(inputId).classList.remove('input-error');
+        document.getElementById(errorId).textContent = '';
+    }
+
+    /* ==========================================================
+       NAVEGACI\u00d3N ENTRE PANTALLAS
+       ========================================================== */
+    function showScreen(target) {
+        screenWelcome.classList.remove('active');
+        screenQuiz.classList.remove('active');
+        screenResults.classList.remove('active');
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ==========================================================
+       INICIAR QUIZ
+       ========================================================== */
+    btnStart.addEventListener('click', function() {
+        if (isStarting) return;
+
+        var clean = sanitizeName(inputName.value);
+        var err = validateName(clean);
+
+        if (err) {
+            nameError.textContent = err;
+            inputName.classList.add('input-error');
+            return;
+        }
+
+        nameError.textContent = '';
+        inputName.classList.remove('input-error');
+        isStarting = true;
+
+        studentName = clean;
+        currentQ = 0;
+        score = 0;
+
+        showScreen(screenQuiz);
+        renderQuestion();
+        isStarting = false;
+    });
+
+    inputName.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') btnStart.click();
+    });
+
+    inputName.addEventListener('input', function() {
+        nameError.textContent = '';
+        inputName.classList.remove('input-error');
+    });
+
+    /* ==========================================================
+       RENDER DE PREGUNTA
+       ========================================================== */
+    function renderQuestion() {
+        answered = false;
+        questionFailed = false;
+
+        var q = questions[currentQ];
+        var total = questions.length;
+
+        document.getElementById('quiz-student-name').textContent = studentName;
+        document.getElementById('quiz-progress-text').textContent =
+            'Pregunta ' + (currentQ + 1) + ' de ' + total;
+        document.getElementById('progress-bar').style.width =
+            ((currentQ + 1) / total * 100) + '%';
+
+        document.getElementById('question-category').textContent = categories[currentQ];
+        document.getElementById('question-text').textContent = q.q;
+
+        var list = document.getElementById('options-list');
+        while (list.firstChild) list.removeChild(list.firstChild);
+
+        for (var i = 0; i < q.o.length; i++) {
+            var li = document.createElement('li');
+            var btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = q.o[i];
+            btn.setAttribute('data-idx', String(i));
+            btn.addEventListener('click', handleAnswer);
+            li.appendChild(btn);
+            list.appendChild(li);
+        }
+
+        var fbArea = document.getElementById('feedback-area');
+        while (fbArea.firstChild) fbArea.removeChild(fbArea.firstChild);
+
+        var nextArea = document.getElementById('next-btn-area');
+        while (nextArea.firstChild) nextArea.removeChild(nextArea.firstChild);
+
+        var inner = document.getElementById('question-inner');
+        inner.style.animation = 'none';
+        void inner.offsetHeight;
+        inner.style.animation = '';
+    }
+
+    /* ==========================================================
+       MANEJAR SELECCI\u00d3N DE RESPUESTA
+       ========================================================== */
+    function handleAnswer(e) {
+        if (answered) return;
+
+        var selected = parseInt(e.currentTarget.getAttribute('data-idx'), 10);
+        var correct = _keys[currentQ];
+        var isCorrect = (selected === correct);
+        var btnClicked = e.currentTarget;
+
+        if (isCorrect) {
+            answered = true;
+
+            if (!questionFailed) score++;
+
+            var buttons = document.getElementById('options-list').querySelectorAll('.option-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                buttons[i].removeEventListener('click', handleAnswer);
+                if (i === selected) {
+                    buttons[i].classList.add('selected-correct');
+                } else {
+                    buttons[i].classList.add('dimmed');
+                }
+            }
+
+            var fbArea = document.getElementById('feedback-area');
+            while (fbArea.firstChild) fbArea.removeChild(fbArea.firstChild);
+            var fbDiv = document.createElement('div');
+            fbDiv.className = 'feedback-box correct';
+            fbDiv.textContent = questionFailed
+                ? '\u2705 \u00a1Ahora s\u00ed! Respuesta correcta.'
+                : '\u2705 \u00a1Correcto!';
+            fbArea.appendChild(fbDiv);
+
+            setTimeout(function() {
+                currentQ++;
+                if (currentQ < questions.length) {
+                    renderQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1500);
+
+        } else {
+            questionFailed = true;
+
+            btnClicked.classList.add('selected-incorrect');
+            btnClicked.disabled = true;
+            btnClicked.removeEventListener('click', handleAnswer);
+
+            var fbArea = document.getElementById('feedback-area');
+            while (fbArea.firstChild) fbArea.removeChild(fbArea.firstChild);
+            var fbDiv = document.createElement('div');
+            fbDiv.className = 'feedback-box incorrect';
+            fbDiv.textContent = '\u274c Esa no es la respuesta correcta. Int\u00e9ntalo de nuevo.';
+            fbArea.appendChild(fbDiv);
+        }
+    }
+
+    /* ==========================================================
+       PANTALLA DE RESULTADOS
+       ========================================================== */
+    function showResults() {
+        showScreen(screenResults);
+
+        var pct = Math.round((score / questions.length) * 100);
+        var aprobado = score >= SCORE_MIN;
+        var icon, msg;
+
+        if (aprobado) {
+            if (score >= 14) {
+                icon = '\uD83C\uDF1F';
+                msg = '\u00a1Demuestras un gran dominio del tema! \uD83C\uDF1F';
+            } else {
+                icon = '\uD83D\uDCAA';
+                msg = '\u00a1Muy bien! Tienes una base s\u00f3lida \uD83D\uDCAA';
+            }
+        } else {
+            icon = '\uD83D\uDCD6';
+            msg = 'Necesitas repasar el material. \u00a1T\u00fa puedes!';
+        }
+
+        document.getElementById('results-icon').textContent = icon;
+        document.getElementById('results-name').textContent = studentName;
+        document.getElementById('score-display').textContent = pct + '%';
+        document.getElementById('result-message').textContent = msg;
+        document.getElementById('score-detail').textContent =
+            score + ' de ' + questions.length + ' correctas al primer intento';
+
+        /* Ocultar todo primero */
+        document.getElementById('results-form-section').classList.add('hidden');
+        document.getElementById('retry-section').classList.add('hidden');
+        document.getElementById('institutional-msg').classList.add('hidden');
+
+        if (aprobado) {
+            /* Aprobado: mostrar formulario de registro */
+            document.getElementById('results-form-section').classList.remove('hidden');
+
+            document.getElementById('res-nombre').value = studentName;
+            document.getElementById('res-email').value = '';
+            document.getElementById('res-telefono').value = '';
+            document.getElementById('curp').value = '';
+            document.getElementById('btn-premium').style.display = '';
+            document.getElementById('submit-error').textContent = '';
+            clearFieldError('res-nombre', 'res-nombre-error');
+            clearFieldError('res-email', 'res-email-error');
+            clearFieldError('res-telefono', 'res-telefono-error');
+
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = 'Enviar y obtener mi diploma';
+            isSubmitting = false;
+        } else {
+            /* No aprobado: mostrar invitaci\u00f3n a reintentar */
+            document.getElementById('retry-section').classList.remove('hidden');
+        }
+    }
+
+    /* ==========================================================
+       INTL-TEL-INPUT: Selector de pa\u00eds para tel\u00e9fono
+       ========================================================== */
+    var phoneInput = document.querySelector("#res-telefono");
+    var iti = window.intlTelInput(phoneInput, {
+        initialCountry: "mx",
+        preferredCountries: ["mx", "us", "co", "ar", "cl", "pe"],
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
+
+    /* ==========================================================
+       AUTO-CAPITALIZAR NOMBRE AL ESCRIBIR
+       ========================================================== */
+    document.getElementById('res-nombre').addEventListener('input', function() {
+        var pos = this.selectionStart;
+        this.value = this.value.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+        this.setSelectionRange(pos, pos);
+    });
+
+    /* ==========================================================
+       CAPITALIZAR NOMBRE HELPER
+       ========================================================== */
+    function capitalizarNombre(str) {
+        return str.trim().replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    }
+
+    /* ==========================================================
+       PREMIUM BUTTON FLOW
+       ========================================================== */
+    document.addEventListener('click', function(e) {
+        if (e.target.id === 'btn-premium') {
+            var card = document.querySelector('.premium-card');
+            var btnEl = document.getElementById('btn-premium');
+            btnEl.style.display = 'none';
+            var optDiv = document.createElement('div');
+            optDiv.innerHTML = '<p><strong>&iquest;C&oacute;mo prefieres pagar tu membres&iacute;a Premium?</strong></p>' +
+                '<button type="button" id="btn-tarjeta" class="btn-opcion">&#x1F4B3; Tarjeta de cr&eacute;dito o d&eacute;bito</button>' +
+                '<button type="button" id="btn-transferencia" class="btn-opcion">&#x1F3E6; Transferencia SPEI u OXXO</button>';
+            card.querySelector('.curp-box').before(optDiv);
+        }
+        if (e.target.id === 'btn-tarjeta') {
+            window.open('https://www.skool.com/quinto-elemento-pro-8427/plans', '_blank');
+        }
+        if (e.target.id === 'btn-transferencia') {
+            var msgDiv = document.createElement('p');
+            msgDiv.style.cssText = 'margin-top:12px;font-size:14px;color:#555;';
+            msgDiv.innerHTML = 'Escr&iacute;benos por WhatsApp al <a href="https://wa.me/523311337820?text=Hola%2C%20quiero%20inscribirme%20al%20plan%20Premium" target="_blank" style="color:#E8750A;font-weight:bold;">33 1133 7820</a> y te ayudamos con tu pago.';
+            e.target.parentNode.appendChild(msgDiv);
+            e.target.disabled = true;
+        }
+    });
+
+    /* ==========================================================
+       ENV\u00cdO DE RESULTADOS AL WEBHOOK n8n
+       ========================================================== */
+    btnSubmit.addEventListener('click', function() {
+        if (isSubmitting) return;
+
+        clearFieldError('res-nombre', 'res-nombre-error');
+        clearFieldError('res-email', 'res-email-error');
+        clearFieldError('res-telefono', 'res-telefono-error');
+        document.getElementById('submit-error').textContent = '';
+
+        var nombre   = capitalizarNombre(sanitizeName(document.getElementById('res-nombre').value));
+        var email    = sanitizeEmail(document.getElementById('res-email').value);
+        var telefono = iti.getNumber();
+        var curp     = document.getElementById('curp').value.trim().substring(0, 18).toUpperCase();
+
+        var errNombre   = validateName(nombre);
+        var errEmail    = validateEmail(email);
+        var errTelefono = validatePhone(telefono);
+        var hasError = false;
+
+        if (errNombre) {
+            showFieldError('res-nombre', 'res-nombre-error', errNombre);
+            hasError = true;
+        }
+        if (errEmail) {
+            showFieldError('res-email', 'res-email-error', errEmail);
+            hasError = true;
+        }
+        if (errTelefono) {
+            showFieldError('res-telefono', 'res-telefono-error', errTelefono);
+            hasError = true;
+        }
+
+        if (hasError) return;
+
+        /* Honeypot check */
+        if (document.getElementById('res-website').value) return;
+
+        isSubmitting = true;
+        btnSubmit.disabled = true;
+
+        while (btnSubmit.firstChild) btnSubmit.removeChild(btnSubmit.firstChild);
+        var spinnerEl = document.createElement('span');
+        spinnerEl.className = 'spinner';
+        btnSubmit.appendChild(spinnerEl);
+        var spinText = document.createTextNode(' Enviando...');
+        btnSubmit.appendChild(spinText);
+
+        var payload = {
+            nombre: capitalizarNombre(nombre),
+            email: email,
+            telefono: telefono,
+            curp: curp || '',
+            score: score,
+            total: 15,
+            curso: 'Masaje Modelador, Reductivo Anticelul\u00edtico'
+        };
+
+        fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(function(response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            /* \u00c9xito: ocultar formulario, mostrar mensaje */
+            document.getElementById('results-form-section').classList.add('hidden');
+            document.getElementById('institutional-msg').classList.remove('hidden');
+        })
+        .catch(function() {
+            document.getElementById('submit-error').textContent =
+                '\u26a0\ufe0f Hubo un problema al enviar tus datos. Por favor intenta de nuevo o escr\u00edbenos al 3311337820.';
+            resetSubmitButton();
+        });
+    });
+
+    function resetSubmitButton() {
+        isSubmitting = false;
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Enviar y obtener mi diploma';
+    }
+
+    ['res-nombre', 'res-email', 'res-telefono'].forEach(function(id) {
+        document.getElementById(id).addEventListener('input', function() {
+            clearFieldError(id, id + '-error');
+            document.getElementById('submit-error').textContent = '';
+        });
+    });
+
+    /* ==========================================================
+       REINICIAR QUIZ
+       ========================================================== */
+    btnRetry.addEventListener('click', function() {
+        currentQ = 0;
+        score = 0;
+        answered = false;
+        questionFailed = false;
+        showScreen(screenQuiz);
+        renderQuestion();
+    });
+
+})();
+</script>
+
+</body>
+</html>
